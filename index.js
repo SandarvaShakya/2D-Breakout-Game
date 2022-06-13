@@ -4,6 +4,9 @@ const context = canvas.getContext('2d')
 canvas.width = innerWidth
 canvas.height = innerHeight
 
+//to keep track if the loop has started or not
+let gameStart = 0
+
 addEventListener('resize', () => {
     canvas.width = innerWidth
     canvas.height = innerHeight
@@ -11,9 +14,25 @@ addEventListener('resize', () => {
 })
 
 addEventListener('keydown', (event) => {
+    if(gameStart === 0){
+        ball.move(event.key)
+    }
     platform.move(event.key)
-    ball.update(event.key)
 })
+
+addEventListener('click', (event) => {
+    if(gameStart === 0){
+        const projectileAngle = Math.atan2(event.clientY - ball.y, event.clientX - ball.x)
+        const xVelocity = Math.cos(projectileAngle) 
+        const yVelocity =  Math.sin(projectileAngle)
+    
+        ball.velocity.x = xVelocity * 8
+        ball.velocity.y = yVelocity * 8
+        gameStart = 1
+    }
+
+})
+
 
 let bricks
 let platform
@@ -53,7 +72,7 @@ function init(){
     const ballRadius = 10
     const ballX = (canvas.width / 2)
     const ballY = platformY - ballRadius
-    ball = new Projectile(ballX, ballY, ballRadius, 'white', null)
+    ball = new Projectile(ballX, ballY, ballRadius, 'white')
 }
 
 function animate(){

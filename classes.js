@@ -81,12 +81,15 @@ class Platform{
  * Represents the ball
  */
 class Projectile{
-    constructor(x, y, radius, color, velocity){
+    constructor(x, y, radius, color){
         this.x = x
         this.y = y
         this.radius = radius
         this.color = color
-        this.velocity = velocity
+        this.velocity = {
+            x: undefined,
+            y: undefined
+        }
     }
 
     draw(){
@@ -97,10 +100,19 @@ class Projectile{
         context.closePath()
     }
 
-    update(direction){
-        if(direction === ' '){
-           console.log('pressed');
+    update(){
+        if(this.velocity.x){
+            this.x += this.velocity.x
+            this.y += this.velocity.y
         }
         this.draw()
+    }
+
+    move(direction){
+        if(direction === 'ArrowLeft' && (this.x - this.radius - 50) > 0){
+            this.x -= 20 
+        } else if(direction === 'ArrowRight' && (this.x + this.radius + 50) < canvas.width){
+            this.x += 20
+        }
     }
 }
