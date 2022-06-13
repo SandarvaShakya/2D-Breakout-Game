@@ -63,11 +63,43 @@ class Platform{
         context.closePath()
     }
 
+    /**
+     * Moves the platform left or right
+     * @param {string} direction the key pressed by the user 
+     */
     move(direction){
         if(direction === 'ArrowLeft' && this.x > 0){
             this.x -= 20
         } else if(direction === 'ArrowRight' && (this.x + this.width) < canvas.width){
             this.x += 20
+        }
+        this.draw()
+    }
+}
+
+/**
+ * Represents the ball
+ */
+class Projectile{
+    constructor(x, y, radius, color, velocity){
+        this.x = x
+        this.y = y
+        this.radius = radius
+        this.color = color
+        this.velocity = velocity
+    }
+
+    draw(){
+        context.beginPath()
+        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+        context.fillStyle = this.color
+        context.fill()
+        context.closePath()
+    }
+
+    update(direction){
+        if(direction === ' '){
+           console.log('pressed');
         }
         this.draw()
     }

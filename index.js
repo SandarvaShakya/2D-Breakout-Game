@@ -12,10 +12,12 @@ addEventListener('resize', () => {
 
 addEventListener('keydown', (event) => {
     platform.move(event.key)
+    ball.update(event.key)
 })
 
 let bricks
 let platform
+let ball
 
 function init(){
     bricks = []
@@ -46,13 +48,20 @@ function init(){
     const platformX = (canvas.width / 2) - (platformWidth / 2)
     const platformY = canvas.height - 100
     platform = new Platform(platformX, platformY, platformWidth, platFormHeight, 'white')
+
+    //Ball Generation
+    const ballRadius = 10
+    const ballX = (canvas.width / 2)
+    const ballY = platformY - ballRadius
+    ball = new Projectile(ballX, ballY, ballRadius, 'white', null)
 }
 
 function animate(){
     requestAnimationFrame(animate)
     context.fillStyle = "rgba(29, 22, 22, 0.3)"
     context.fillRect(0,0, canvas.width, canvas.height)
-    platform.draw()
+    platform.move()
+    ball.update()
     bricks.forEach(brick => {
         brick.update()
     })
